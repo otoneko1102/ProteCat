@@ -1,16 +1,16 @@
 {
-  "guild_name": "1234567890's GUILD_NAME",
+  "guild_name": "GUILD_ID's GUILD_NAME",
   "prefix": null,
   "mods": [],
   "channel": {
-    "category": "1234567890's LOG_CATEGORY_ID",
-    "log": "1234567890's AUDIT_LOG_CHANNEL_ID",
-    "msglog": "1234567890's MESSAGE_LOG_CHANNEL_ID",
-    "invite": "1234567890's INVITE_LOG_CHANNEL_ID",
+    "category": "GUILD_ID's LOG_CATEGORY_ID",
+    "log": "GUILD_ID's AUDIT_LOG_CHANNEL_ID",
+    "msglog": "GUILD_ID's MESSAGE_LOG_CHANNEL_ID",
+    "invite": "GUILD_ID's INVITE_LOG_CHANNEL_ID",
     "nuke": []
   },
   "role": {
-    "muted": "1234567890's MUTED_USERS_ROLE_ID",
+    "muted": "GUILD_ID's MUTED_USERS_ROLE_ID",
     "autos": []
   },
   "setting": {
