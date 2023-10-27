@@ -1,0 +1,41 @@
+{
+  "guild_name": "1234567890's GUILD_NAME",
+  "prefix": null,
+  "mods": [],
+  "channel": {
+    "category": "1234567890's LOG_CATEGORY_ID",
+    "log": "1234567890's AUDIT_LOG_CHANNEL_ID",
+    "msglog": "1234567890's MESSAGE_LOG_CHANNEL_ID",
+    "invite": "1234567890's INVITE_LOG_CHANNEL_ID",
+    "nuke": []
+  },
+  "role": {
+    "muted": "1234567890's MUTED_USERS_ROLE_ID",
+    "autos": []
+  },
+  "setting": {
+    "disable": false,
+    "antispam": true,
+    "antiinvite": true,
+    "antilink": false,
+    "antingwords": true,
+    "ticket_number": {
+      "category": null
+    },
+    "timeout": {
+      "days": 0,
+      "hours": 0,
+      "minutes": 2,
+      "seconds": 0,
+      "antispam": true,
+      "antiinvite": true,
+      "antilink": false,
+      "antingwords": false
+    }
+  },
+  "ignore_channels": [],
+  "ignore_roles": [],
+  "ignore_users": [],
+  "ngwords": [],
+  "muted_users": []
+}
