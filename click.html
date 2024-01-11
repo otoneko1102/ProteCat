@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    p {
+      font-size: 15px;
+    }
+
+    .game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(8, 50px);
+      grid-gap: 2px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .cell {
+      width: 50px;
+      height: 50px;
+      background-color: green;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="board" id="board"></div>
+    <p id="status">⚫ Player's turn</p>
+    <div class="score">
+      <p>⚫ Player Score: <span id="playerXScore">0</span></p>
+      <p>⚪ Computer Score: <span id="playerOScore">0</span></p>
+    </div>
+  </div>
+
+  <script>
+    // ゲームの盤面
+    const board = new Array(8).fill(null).map(() => new Array(8).fill(null));
+    const boardElement = document.getElementById("board");
+    const statusElement = document.getElementById("status");
+
+    let currentPlayer = '⚫';
+
+    function createCell(row, col) {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.dataset.row = row;
+      cell.dataset.col = col;
+      cell.addEventListener("click", () => onCellClick(row, col));
+      return cell;
+    }
+
+    function initializeBoard() {
+      for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+          const cell = createCell(row, col);
+          boardElement.appendChild(cell);
+        }
+      }    
+      // 初期配置
+      placeDisk(3, 3, '⚫');
+            placeDisk(4, 4, '⚫');
+      placeDisk(3, 4, '⚪');
+      placeDisk(4, 3, '⚪');
+    }
+
+    function placeDisk(row, col, player) {
+      const cell = boardElement.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+      board[row][col] = player;
+      cell.textContent = player;
+    }
+
+    function onCellClick(row, col) {
+      if (board[row][col] || !isValidMove(row, col, currentPlayer)) {
+        return;
+      }
+
+      placeDisk(row, col, currentPlayer);
+      flipDisks(row, col, currentPlayer);
+
+      if (currentPlayer === '⚫') {
+        currentPlayer = '⚪';
+        statusElement.textContent = "⚪ Computer's turn";
+        setTimeout(makeComputerMove, 1000);
+      } else {
+        currentPlayer = '⚫';
+        statusElement.textContent = "⚫ Player's turn";
+      }
+    }
+
+    // 配置できるかどうかを判定
+    function isValidMove(row, col, player) {
+      if (board[row][col]) {
+        return false;
+      }
+
+      const directions = [
+        [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
+      ];
+
+      for (const [dx, dy] of directions) {
+        let r = row + dx;
+        let c = col + dy;
+        let hasOpponentDiskBetween = false;
+
+        while (r >= 0 && r < 8 && c >= 0 && c < 8) {
+          const cell = board[r][c];
+
+          if (cell === null) {
+            break;
+          } else if (cell === player) {
+            if (hasOpponentDiskBetween) {
+              return true;
+            } else {
+              break;
+            }
+          }
+          else {
+            hasOpponentDiskBetween = true;
+          }
+
+          r += dx;
+          c += dy;
+        }
+      }
+
+      return false;
+    }
+
+    function flipDisks(row, col, player) {
+      const directions = [
+        [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
+      ];
+
+      for (const [dx, dy] of directions) {
+        let r = row + dx;
+        let c = col + dy;
+        let shouldFlip = false;
+
+        while (r >= 0 && r < 8 && c >= 0 && c < 8) {
+          const cell = board[r][c];
+
+          if (cell === null) {
+            break;
+          } else if (cell === player) {
+            if (shouldFlip) {
+              r -= dx;
+              c -= dy;
+              while (board[r][c] !== player) {
+                placeDisk(r, c, player);
+                r -= dx;
+                c -= dy;
+              }
+            }
+            break;
+          } else {
+            shouldFlip = true;
+          }
+
+          r += dx;
+          c += dy;
+        }
+      }
+    }
+
+    function makeComputerMove() {
+      const validMoves = findValidMoves(currentPlayer);
+
+      if (validMoves.length > 0) {
+        // ランダムな有効な手を選択
+        const randomMove = validMoves[Math.floor(Math.random() * validMoves.length)];
+
+        const { row, col } = randomMove;
+        onCellClick(row, col);
+      }
+    }
+
+    function findValidMoves(player) {
+      const validMoves = [];
+
+      for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+          if (!board[row][col] && isValidMove(row, col, player)) {
+            validMoves.push({ row, col });
+          }
+        }
+      }
+
+      return validMoves;
+    }
+
+    // 勝敗判定
+    function isGameOver() {
+      return isBoardFull() || !findValidMoves('⚫').length && !findValidMoves('⚪').length;
+    }
+
+    function getWinner() {
+      const playerDisks = board.flat().filter(cell => cell === '⚫' || cell === '⚪');
+      const xCount = playerDisks.filter(cell => cell === '⚫').length;
+      const oCount = playerDisks.filter(cell => cell === '⚪').length;
+
+      if (xCount > oCount) {
+        return '⚫';
+      } else if (oCount > xCount) {
+        return '⚪';
+      } else {
+        return 'Draw';
+      }
+    }
+
+    function isBoardFull() {
+      return board.flat().every(cell => cell !== null);
+    }
+
+    // スキップ
+    function makeComputerMove() {
+      const validMoves = findValidMoves(currentPlayer);
+
+      if (validMoves.length > 0) {
+        const randomMove = validMoves[Math.floor(Math.random() * validMoves.length)];
+        const { row, col } = randomMove;
+        onCellClick(row, col);
+      } else {
+        // 詰み状態ならスキップ
+        switchTurn();
+      }
+    }
+
+    const playerXScoreElement = document.getElementById("playerXScore");
+    const playerOScoreElement = document.getElementById("playerOScore");
+
+    let playerXScore = 2;
+    let playerOScore = 2;
+
+    function updateScores() {
+      const playerXDisks = board.flat().filter(cell => cell === '⚫');
+      const playerODisks = board.flat().filter(cell => cell === '⚪');
+
+      playerXScore = playerXDisks.length;
+      playerOScore = playerODisks.length;
+
+      playerXScoreElement.textContent = playerXScore;
+      playerOScoreElement.textContent = playerOScore;
+    }
+
+    function onCellClick(row, col) {
+      if (board[row][col] || !isValidMove(row, col, currentPlayer)) {
+        return;
+      }
+
+      placeDisk(row, col, currentPlayer);
+      flipDisks(row, col, currentPlayer);
+
+      if (currentPlayer === '⚫') {
+        currentPlayer = '⚪';
+        statusElement.textContent = "⚪ Computer's turn";
+        setTimeout(makeComputerMove, 1000);
+      } else {
+        currentPlayer = '⚫';
+        statusElement.textContent = "⚫ Player's turn";
+      }
+
+      if (!findValidMoves(currentPlayer).length) {
+        // 詰み状態ならスキップ
+        switchTurn();
+      }
+
+      updateScores();
+
+      if (isGameOver()) {
+        // ゲーム終了の処理
+        const winner = getWinner();
+        setTimeout(() => {
+          if (winner === 'Draw') {
+            statusElement.textContent = "It's a draw!";
+            alert("It's a draw!");
+          } else {
+            statusElement.textContent = `${winner} wins!`;
+            alert(`${winner} wins!`); 
+          }
+          setTimeout (() => {
+            window.location.href = 'https://fa0e41cd-087e-4dec-b362-d82593ed82bd-00-188hnh5xcvllz.asia-a.replit.dev/index.html';
+          }, 5000)
+        }, 3000)
+      }
+    }
+
+    function switchTurn() {
+      if (currentPlayer === '⚫') {
+        currentPlayer = '⚪';
+        statusElement.textContent = "⚪ Computer's turn";
+        setTimeout(makeComputerMove, 1000);
+      } else {
+        currentPlayer = '⚫';
+        statusElement.textContent = "⚫ Player's turn";
+      }
+    }
+
+    initializeBoard();
+    updateScores();
+  </script>
+</body>
+</html>
