@@ -5,4 +5,4 @@ Webダッシュボードからではなく、Discord上でコマンドでの操�
 
 <img src="https://otoneko1102.github.io/ProteCat/img/ProteCat.webp">
 <a href="https://github.com/otoneko1102/ProteCat/tree/main/bot">ソースコード</a>
-<a href="https://otoneko1102.github.io/ProteCat/" target="_blank">ドキュメント</a>
+<a href="https://protecat.otoneko.jp/" target="_blank">ドキュメント</a>
