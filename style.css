@@ -170,7 +170,6 @@ img {
   z-index: 999;
 }
 
-
 .top-button:hover {
   background-color: #6d3286;
 }
@@ -228,74 +227,80 @@ img {
 }
 
 .menu-button {
-    color: #000;
-    padding: 10px 20px;
-    cursor: pointer;
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 1;
+  color: #000;
+  padding: 10px 20px;
+  cursor: pointer;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
+
+.menu-icon {
+  width: auto;
+  height: 24px;
+  vertical-align: middle;
 }
 
 .page-list {
-    position: fixed;
-    top: 0;
-    left: -250px;
-    width: 250px;
-    height: 100%;
-    background-color: #ccc;
-    color: #000;
-    transition: left 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #ccc;
+  color: #000;
+  transition: left 0.3s ease;
 }
 
 .page-list ul {
-    list-style: none;
-    padding: 15px;
+  list-style: none;
+  padding: 15px;
 }
 
 .page-list ul li {
-    margin: 10px 0;
-    line-height: 1.5;
+  margin: 10px 0;
+  line-height: 1.5;
 }
 
 .page-list ul li a {
-    text-decoration: none;
-    color: #000;
-    display: inline-block;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+  color: #000;
+  display: inline-block;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease, color 0.3s ease;
 }
 
 .page-list ul li a:hover {
-    color: #6d3286;
-    border-color: #6d3286;
+  color: #6d3286;
+  border-color: #6d3286;
 }
 
 .terms-privacy-policy {
-    width: 100%;
-    margin: 0 auto;
-    font-family: sans-serif !important;
-    background-color: #dedede;
-    padding: 20px;
+  width: 100%;
+  margin: 0 auto;
+  font-family: sans-serif !important;
+  background-color: #dedede;
+  padding: 20px;
 }
 
 .terms-privacy-policy h1 {
-    text-align: center;
-    font-family: sans-serif !important;
+  text-align: center;
+  font-family: sans-serif !important;
 }
 
 .terms-privacy-policy li {
-    font-family: sans-serif !important;
+  font-family: sans-serif !important;
 }
 
 .terms-privacy-policy a {
-    color: #a260bf;
-    border-color: #a260bf;
-    font-family: sans-serif !important;
+  color: #a260bf;
+  border-color: #a260bf;
+  font-family: sans-serif !important;
 }
 
 .terms-privacy-policy a:hover {
-    color: #6d3286;
-    border-color: #6d3286;
-    font-family: sans-serif !important;
+  color: #6d3286;
+  border-color: #6d3286;
+  font-family: sans-serif !important;
 }
