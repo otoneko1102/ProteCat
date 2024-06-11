@@ -63,6 +63,12 @@ img {
   font-size: 4rem;
 }
 
+.title-logo {
+  width: auto;
+  height: 100px;
+  vertical-align: middle;
+}
+
 .title,
 .description {
   text-align: center;
